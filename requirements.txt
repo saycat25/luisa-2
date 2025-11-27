@@ -1,0 +1,14 @@
+# Dependências básicas
+discord.py
+python-dotenv
+psutil
+aiohttp
+
+# Dependências para o LLM (Gemini)
+google-genai
+
+# Dependência para TTS (gTTS)
+gTTS
+
+# Dependência para Mastodon
+Mastodon.py

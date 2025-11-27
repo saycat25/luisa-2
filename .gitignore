@@ -1,0 +1,31 @@
+# Arquivos de ambiente e segredos
+.env
+.env.*
+*.log
+
+# Diretórios de cache e virtual environment
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Diretórios criados pelo deploy.sh
+lu_memory/
+projects/
+audio/
+
+# Arquivos de banco de dados (se não for SQLite no lu_memory)
+*.sqlite
+*.db
+
+# Arquivos de IDEs e editores
+.idea/
+.vscode/
+*.swp
+*~
+
+# Arquivos de build e distribuição
+dist/
+build/
+*.egg-info/
