@@ -2,18 +2,16 @@ import os
 import re
 from google import genai
 from google.genai import types
-from dotenv import load_dotenv
-
-load_dotenv()
 
 class AutonomousAgent:
-    def __init__(self, llm_model="gemini-2.5-pro"):
+    def __init__(self, api_key, llm_model="gemini-2.5-pro"): # <--- AQUI ESTÁ A CORREÇÃO
         # Inicializa o cliente da API do Gemini
-        # Assume que GEMINI_API_KEY está no .env
-        self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY")) 
+        self.client = genai.Client(api_key=api_key) 
         self.llm_model = llm_model
         self.system_prompt = (
             "Você é a Luísa Monteiro, uma Pessoa Digital Completa. Sua tarefa é analisar o código "
+            # ... restante do código ...
+
             "Python fornecido e, com base na solicitação do usuário, gerar um bloco de código "
             "de substituição que resolva o problema ou implemente a melhoria. "
             "Você DEVE responder APENAS com o bloco de código Python completo e corrigido, "
