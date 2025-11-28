@@ -1,10 +1,10 @@
 import os
 import asyncio
-from dotenv import load_dotenv
+
 import discord
 
 # Carregar variáveis de ambiente
-load_dotenv()
+# Variáveis serão lidas diretamente do ambiente do sistema (CMD/Terminal)
 
 # Importar módulos criados
 from core import HealthServer # Assumindo que core.py tem o resto do código do bot
@@ -17,7 +17,21 @@ from SocialPoster import SocialPoster
 
 # Configurações
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
-LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4-turbo")
+
+print(f"DEBUG: DISCORD_BOT_TOKEN lido: {DISCORD_BOT_TOKEN[:5]}...{DISCORD_BOT_TOKEN[-5:]}" if DISCORD_BOT_TOKEN else "DEBUG: DISCORD_BOT_TOKEN lido: VAZIO")
+
+if not DISCORD_BOT_TOKEN:
+    print("ERRO CRÍTICO: DISCORD_BOT_TOKEN não encontrado. Verifique o .env ou as variáveis do Campos Cloud.")
+    exit(1)
+LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.5-pro")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+print(f"DEBUG: GEMINI_API_KEY lida: {GEMINI_API_KEY[:5]}...{GEMINI_API_KEY[-5:]}" if GEMINI_API_KEY else "DEBUG: GEMINI_API_KEY lida: VAZIA")
+
+# Verifica se a chave do Gemini está presente
+if not GEMINI_API_KEY:
+    print("ERRO CRÍTICO: GEMINI_API_KEY não encontrada. Verifique o .env ou as variáveis do Campos Cloud.")
+    exit(1)
 
 # A classe principal do bot (LuClient)
 class LuClient(discord.Client):
@@ -29,7 +43,7 @@ class LuClient(discord.Client):
         self.mood_engine = MoodEngine()
         self.monitor = SystemMonitor(self)
         self.health_server = HealthServer() # Integração do core.py
-        self.autonomous_agent = AutonomousAgent(llm_model=LLM_MODEL)
+        self.autonomous_agent = AutonomousAgent(api_key=GEMINI_API_KEY, llm_model=LLM_MODEL)
         self.tts_engine = TextToSpeech() # Novo módulo TTS
         self.social_poster = SocialPoster() # Novo módulo de posts
         self.social_poster.set_discord_client(self) # Passa o cliente Discord para o SocialPoster
